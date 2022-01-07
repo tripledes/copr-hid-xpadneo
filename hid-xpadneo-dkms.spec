@@ -3,7 +3,7 @@
 %define udev_scriptdir /lib/udev
 %define modprobed_dir /etc/modprobe.d
 
-Name:               dkms-%{real_name}
+Name:               %{real_name}-dkms
 Version:            0.9.1
 Release:            1%{?dist}
 Summary:            Advanced Linux Driver for Xbox One Wireless Gamepad
@@ -70,5 +70,5 @@ dkms --rpm_safe_upgrade remove -m %{dkms_name} -v %{version} --all %{quiet}
 %{modprobed_dir}/99-xpadneo-bluetooth.conf
 
 %changelog
-* Tue Jan 04 2022 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.1-1
+* Tue Jan 07 2022 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.1-1
 - Initial build

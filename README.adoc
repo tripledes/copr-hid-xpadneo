@@ -3,6 +3,3 @@
 RPM definition for packaging the https://github.com/atar-axis/xpadneo[xpadneo driver]. The package
 is based on https://github.com/dell/dkms[DKMS] so it compiles locally on the target system.
 
-[IMPORTANT]
-The package disables enhanced retransmission mode (ERTM) as it seems to work better, this can
-be changed by removing or modifying the file _/etc/modprobe.d/99-xpadneo-bluetooth.conf_.

@@ -4,20 +4,19 @@
 %define modprobed_dir /etc/modprobe.d
 
 Name:               %{real_name}-dkms
-Version:            0.9.1
+Version:            0.9.4
 Release:            1%{?dist}
 Summary:            Advanced Linux Driver for Xbox One Wireless Gamepad
 
 License:            GPLv3
 URL:                https://atar-axis.github.io/%{project_name}/
 Source0:            https://github.com/atar-axis/%{project_name}/archive/refs/tags/v%{version}.tar.gz
-Source1:            99-xpadneo-bluetooth.conf
 # Remove post-{install,remove} dkms hooks
 Patch0:             hid-xpadneo-dkms-conf-in.patch
 Group:              System Environment/Kernel
 
 BuildArch:          noarch
-Requires:           gcc, make
+Requires:           gcc, make, kernel-devel
 Requires(post):     dkms
 Requires(preun):    dkms
 
@@ -45,9 +44,8 @@ Advanced Linux Driver for Xbox One Wireless Gamepad
 sed 's/"@DO_NOT_CHANGE@"/"'"%{version}"'"/g' %{real_name}/dkms.conf.in > %{real_name}/dkms.conf
 cp --recursive %{real_name}/{src,Makefile,dkms.conf} %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
 rm %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/src/.editorconfig
-install -m 0644 %{real_name}/etc-udev-rules.d/60-xpadneo.rules  %{buildroot}%{udev_scriptdir}/rules.d/
-install -m 0644 %{real_name}/etc-modprobe.d/xpadneo.conf  %{buildroot}%{modprobed_dir}/
-install -m 0644 %{SOURCE1} %{buildroot}%{modprobed_dir}/99-xpadneo-bluetooth.conf
+install -m 0644 %{real_name}/etc-udev-rules.d/60-xpadneo.rules  %{buildroot}%{udev_scriptdir}/rules.d/60-hid-xpadneo.rules
+install -m 0644 %{real_name}/etc-modprobe.d/xpadneo.conf  %{buildroot}%{modprobed_dir}/hid-xpadneo.conf
 
 %post
 # Add to DKMS registry
@@ -65,10 +63,12 @@ dkms --rpm_safe_upgrade remove -m %{dkms_name} -v %{version} --all %{quiet}
 %doc NEWS.md docs/{3P-BUGS.md,BT_DONGLES.md,CONFIGURATION.md,README.md,SDL.md,SECUREBOOT.md,TROUBLESHOOTING.md}
 %license LICENSE
 %{_usrsrc}/%{dkms_name}-%{version}/
-%{udev_scriptdir}/rules.d/60-xpadneo.rules
-%{modprobed_dir}/xpadneo.conf
-%{modprobed_dir}/99-xpadneo-bluetooth.conf
+%{udev_scriptdir}/rules.d/60-hid-xpadneo.rules
+%{modprobed_dir}/hid-xpadneo.conf
 
 %changelog
-* Tue Jan 07 2022 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.1-1
+* Mon Jul 04 2022 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.4-1
+- Bump to 0.9.4
+- Add kernel-devel to dependencies
+* Fri Jan 07 2022 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.1-1
 - Initial build

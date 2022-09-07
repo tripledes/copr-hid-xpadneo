@@ -1,8 +1,8 @@
---- xpadneo-0.9.1.orig/hid-xpadneo/dkms.conf.in 2022-01-05 23:18:25.030362647 +0100
-+++ xpadneo-0.9.1/hid-xpadneo/dkms.conf.in      2022-01-05 23:20:11.328875504 +0100
-@@ -7,5 +7,3 @@
+--- xpadneo-0.9.4.orig/hid-xpadneo/dkms.conf.in	2021-12-26 00:40:48.894323211 +0100
++++ xpadneo-0.9.4/hid-xpadneo/dkms.conf.in	2022-07-04 22:52:44.911877796 +0200
+@@ -6,5 +6,3 @@
+ MAKE[0]="make -C $kernel_source_dir M=$dkms_tree/$PACKAGE_NAME/$PACKAGE_VERSION/build/src VERSION=$PACKAGE_VERSION modules"
  CLEAN="make -C $kernel_source_dir M=$dkms_tree/$PACKAGE_NAME/$PACKAGE_VERSION/build/src clean"
- REMAKE_INITRD="Y"
  AUTOINSTALL="Y"
 -POST_INSTALL="dkms.post_install"
 -POST_REMOVE="dkms.post_remove"

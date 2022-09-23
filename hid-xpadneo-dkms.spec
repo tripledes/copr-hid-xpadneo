@@ -4,8 +4,8 @@
 %define modprobed_dir /etc/modprobe.d
 
 Name:               %{real_name}-dkms
-Version:            0.9.4
-Release:            2%{?dist}
+Version:            0.9.5
+Release:            1%{?dist}
 Summary:            Advanced Linux Driver for Xbox One Wireless Gamepad
 
 License:            GPLv3
@@ -69,10 +69,15 @@ dkms --rpm_safe_upgrade remove -m %{dkms_name} -v %{version} --all %{quiet}
 %{modprobed_dir}/hid-xpadneo.conf
 
 %changelog
+* Fri Sep 23 2022 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.5-1
+- Bump to 0.9.5
+
 * Wed Sep 07 2022 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.4-2
 - Add 50-xpadneo-steamlink.rules udev rules
+
 * Mon Jul 04 2022 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.4-1
 - Bump to 0.9.4
 - Add kernel-devel to dependencies
+
 * Fri Jan 07 2022 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.1-1
 - Initial build

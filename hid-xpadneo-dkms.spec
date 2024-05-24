@@ -4,7 +4,7 @@
 %define modprobed_dir /etc/modprobe.d
 
 Name:               %{real_name}-dkms
-Version:            0.9.5
+Version:            0.9.6
 Release:            1%{?dist}
 Summary:            Advanced Linux Driver for Xbox One Wireless Gamepad
 
@@ -25,7 +25,7 @@ Advanced Linux Driver for Xbox One Wireless Gamepad
 
 %prep
 %setup -q -n %{project_name}-%{version}
-%patch0 -p1
+%patch 0 -p1
 
 %build
 
@@ -69,6 +69,9 @@ dkms --rpm_safe_upgrade remove -m %{dkms_name} -v %{version} --all %{quiet}
 %{modprobed_dir}/hid-xpadneo.conf
 
 %changelog
+* Fri May 24 2024 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.6-1
+- Bump to 0.9.6
+
 * Fri Sep 23 2022 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.5-1
 - Bump to 0.9.5
 

@@ -4,13 +4,13 @@
 %define modprobed_dir /etc/modprobe.d
 
 Name:               %{real_name}-dkms
-Version:            0.9.6
+Version:            0.9.7
 Release:            1%{?dist}
 Summary:            Advanced Linux Driver for Xbox One Wireless Gamepad
 
 License:            GPLv3
 URL:                https://atar-axis.github.io/%{project_name}/
-Source0:            https://github.com/atar-axis/%{project_name}/archive/refs/tags/v%{version}.tar.gz
+Source0:            https://github.com/atar-axis/%{project_name}/archive/refs/heads/master.tar.gz
 # Remove post-{install,remove} dkms hooks
 Patch0:             hid-xpadneo-dkms-conf-in.patch
 Group:              System Environment/Kernel
@@ -24,7 +24,7 @@ Requires(preun):    dkms
 Advanced Linux Driver for Xbox One Wireless Gamepad
 
 %prep
-%setup -q -n %{project_name}-%{version}
+%setup -q -n %{project_name}-master
 %patch 0 -p1
 
 %build
@@ -44,8 +44,8 @@ Advanced Linux Driver for Xbox One Wireless Gamepad
 sed 's/"@DO_NOT_CHANGE@"/"'"%{version}"'"/g' %{real_name}/dkms.conf.in > %{real_name}/dkms.conf
 cp --recursive %{real_name}/{src,Makefile,dkms.conf} %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
 rm %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/src/.editorconfig
-install -m 0644 %{real_name}/etc-udev-rules.d/50-xpadneo-fixup-steamlink.rules %{buildroot}%{udev_scriptdir}/rules.d/50-hid-xpadneo-steamlink.rules
 install -m 0644 %{real_name}/etc-udev-rules.d/60-xpadneo.rules %{buildroot}%{udev_scriptdir}/rules.d/60-hid-xpadneo.rules
+install -m 0644 %{real_name}/etc-udev-rules.d/70-xpadneo-disable-hidraw.rules %{buildroot}%{udev_scriptdir}/rules.d/70-xpadneo-disable-hidraw.rules
 install -m 0644 %{real_name}/etc-modprobe.d/xpadneo.conf %{buildroot}%{modprobed_dir}/hid-xpadneo.conf
 
 %post
@@ -64,11 +64,14 @@ dkms --rpm_safe_upgrade remove -m %{dkms_name} -v %{version} --all %{quiet}
 %doc NEWS.md docs/{3P-BUGS.md,BT_DONGLES.md,CONFIGURATION.md,README.md,SDL.md,SECUREBOOT.md,TROUBLESHOOTING.md}
 %license LICENSE
 %{_usrsrc}/%{dkms_name}-%{version}/
-%{udev_scriptdir}/rules.d/50-hid-xpadneo-steamlink.rules
 %{udev_scriptdir}/rules.d/60-hid-xpadneo.rules
+%{udev_scriptdir}/rules.d/70-xpadneo-disable-hidraw.rules
 %{modprobed_dir}/hid-xpadneo.conf
 
 %changelog
+* Sat Nov 23 2024 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.7-1
+- Switch to master for building against f41
+
 * Fri May 24 2024 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.6-1
 - Bump to 0.9.6
 

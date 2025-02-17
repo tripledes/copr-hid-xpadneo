@@ -5,12 +5,12 @@
 
 Name:               %{real_name}-dkms
 Version:            0.9.7
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Advanced Linux Driver for Xbox One Wireless Gamepad
 
 License:            GPLv3
 URL:                https://atar-axis.github.io/%{project_name}/
-Source0:            https://github.com/atar-axis/%{project_name}/archive/refs/heads/master.tar.gz
+Source0:            https://github.com/atar-axis/%{project_name}/archive/refs/tags/v%{version}.tar.gz
 # Remove post-{install,remove} dkms hooks
 Patch0:             hid-xpadneo-dkms-conf-in.patch
 Group:              System Environment/Kernel
@@ -24,7 +24,7 @@ Requires(preun):    dkms
 Advanced Linux Driver for Xbox One Wireless Gamepad
 
 %prep
-%setup -q -n %{project_name}-master
+%setup -q -n %{project_name}-%{version}
 %patch 0 -p1
 
 %build
@@ -69,6 +69,9 @@ dkms --rpm_safe_upgrade remove -m %{dkms_name} -v %{version} --all %{quiet}
 %{modprobed_dir}/hid-xpadneo.conf
 
 %changelog
+* Mon Feb 17 2025 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.7-2
+- Switch back to building releases
+
 * Sat Nov 23 2024 Sergi Jimenez <tripledes@fedoraproject.org> - 0.9.7-1
 - Switch to master for building against f41
 
